@@ -1,6 +1,6 @@
 mysql:
   DBname: StudentServicePlatform
-  host: "127.0.0.1"
+  host: 
   port: 3306
   user: root
-  pass: Hxx332671
+  pass: 
