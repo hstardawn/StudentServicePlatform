@@ -1,6 +1,7 @@
 package main
 
 import (
+	"StudentServicePlatform/internal/middleware"
 	"StudentServicePlatform/internal/pkg/database"
 	"StudentServicePlatform/internal/router"
 	"StudentServicePlatform/internal/service"
@@ -10,12 +11,14 @@ import (
 )
 
 func main() {
-	db:=database.Init()
+
+	db := database.Init()
 	service.ServiceInit(db)
 	r := gin.Default()
+	r.Use(middleware.ErrHandler())
 	router.Init(r)
-	err:=r.Run()
-	if err!=nil{
+	err := r.Run()
+	if err != nil {
 		log.Fatal(err)
 	}
 }

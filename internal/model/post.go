@@ -3,8 +3,8 @@ package model
 import "time"
 
 type Post struct {
-	Id             int       `json:"post_id"`
-	UserId         int       `json:"user_id"`
+	ID             int       `json:"post_id"`
+	UserID         int       `json:"user_id"`
 	IsAnonymous    int       `json:"is_anonymous"`
 	IsUrgent       int       `json:"is_urgent"`
 	PostType       int       `json:"post_type"`
