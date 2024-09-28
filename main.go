@@ -10,12 +10,13 @@ import (
 )
 
 func main() {
-	db:=database.Init()
+	//
+	db := database.Init()
 	service.ServiceInit(db)
 	r := gin.Default()
 	router.Init(r)
-	err:=r.Run()
-	if err!=nil{
+	err := r.Run()
+	if err != nil {
 		log.Fatal(err)
 	}
 }
