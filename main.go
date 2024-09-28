@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	//
+
 	db := database.Init()
 	service.ServiceInit(db)
 	r := gin.Default()
