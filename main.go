@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	//
+	// wer
 	db := database.Init()
 	service.ServiceInit(db)
 	r := gin.Default()
