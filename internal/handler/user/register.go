@@ -42,7 +42,7 @@ func Register(c *gin.Context){
 		_ = c.AbortWithError(200, apiException.PasswordError) //密码长度必须大于8且小于16位
 		return
 	}
-	if data.UserType!=3&&data.UserType!=1&&data.UserType!=2{
+	if data.UserType!=1&&data.UserType!=2&&data.UserType!=3{
 		_ = c.AbortWithError(200, apiException.UserTypeError) //用户类型无效
 		return
 	}

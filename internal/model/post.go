@@ -13,6 +13,6 @@ type Post struct {
 	Status         int       `json:"status"`
 	Response       string    `json:"response"`
 	ResponseRating int       `json:"response_rating"`
-	CreateAt       time.Time `json:"time"`
-	UpdataAt       time.Time `json:"updated_at"`
+	CreateAt       time.Time `json:"post_time"`
+	UpdatedAt       time.Time `json:"updated_post"`
 }
