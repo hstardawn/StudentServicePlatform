@@ -25,7 +25,7 @@ var (
 	ParamError         = NewError(http.StatusInternalServerError, 200501, "参数错误")
 	UserAlreadyExisted = NewError(http.StatusInternalServerError, 200502, "用户名已存在")
 	PasswordError      = NewError(http.StatusInternalServerError, 200503, "密码长度必须大于8且小于16位")
-	UserTypeError      = NewError(http.StatusInternalServerError, 200504, "用户类型无效")
+	// UserTypeError      = NewError(http.StatusInternalServerError, 200504, "用户类型无效")
 	Register           = NewError(http.StatusInternalServerError, 200505, "注册失败")
 
 	//登录
@@ -56,5 +56,6 @@ var (
 
 	//做出评价
 	UserConnotRateResponse    = NewError(http.StatusInternalServerError, 200518, "用户无权做出评价")
-	CreateResponseRatingError = NewError(http.StatusInternalServerError, 200519, "做出评价失败")
+	ResponseRatingError       = NewError(http.StatusInternalServerError, 200519, "评价类型无效")
+	CreateResponseRatingError = NewError(http.StatusInternalServerError, 200520, "做出评价失败")
 )

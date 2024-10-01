@@ -91,6 +91,10 @@ func CreateResponseRating(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.UserConnotRateResponse) //无权做出评价
 		return
 	}
+	if data.ResponseRating != 1 && data.ResponseRating != 2 && data.ResponseRating != 3 && data.ResponseRating != 4 {
+		_ = c.AbortWithError(200, apiException.ResponseRatingError) //评价类型无效
+		return
+	}
 	_, err = service.GetResponse(data.UserID)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.CreateResponseRatingError) //查看回复失败
