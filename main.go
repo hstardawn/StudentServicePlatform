@@ -13,15 +13,16 @@ import (
 
 func main() {
 	utils.InitLogger()
-	db:=database.Init()
+	db := database.Init()
 	service.ServiceInit(db)
 	r := gin.Default()
 	r.Use(middleware.ErrHandler())
 	r.NoMethod(middleware.HandleNotFond)
 	r.NoRoute(middleware.HandleNotFond)
+	r.Use(middleware.ErrHandler())
 	router.Init(r)
-	err:=r.Run()
-	if err!=nil{
+	err := r.Run()
+	if err != nil {
 		log.Fatal(err)
 	}
 }
