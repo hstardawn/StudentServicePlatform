@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"StudentServicePlatform/internal/apiException"
+	apiexception "StudentServicePlatform/internal/apiException"
 	"StudentServicePlatform/pkg/utils"
 	"errors"
 
@@ -15,12 +15,12 @@ func ErrHandler() gin.HandlerFunc {
 			e := c.Errors.Last()
 			err := e.Err
 			if err != nil {
-				var apiErr *apiException.Error
-				var e *apiException.Error
+				var apiErr *apiexception.Error
+				var e *apiexception.Error
 				if errors.As(err, &e) {
 					apiErr = e
 				}
-				// utils.Log.Printf("[ip:%s]%s", c.ClientIP(), apiErr.Msg)
+				utils.Log.Printf("[ip:%s]%s", c.ClientIP(), apiErr.Msg)
 				utils.JsonFail(c, apiErr.StatusCode, apiErr.Msg)
 				return
 			}

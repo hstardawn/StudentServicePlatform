@@ -5,17 +5,20 @@ import (
 	"StudentServicePlatform/internal/pkg/database"
 	"StudentServicePlatform/internal/router"
 	"StudentServicePlatform/internal/service"
+	"StudentServicePlatform/pkg/utils"
 	"log"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// 1235
-	// wer123
+	utils.InitLogger()
 	db := database.Init()
 	service.ServiceInit(db)
 	r := gin.Default()
+	r.Use(middleware.ErrHandler())
+	r.NoMethod(middleware.HandleNotFond)
+	r.NoRoute(middleware.HandleNotFond)
 	r.Use(middleware.ErrHandler())
 	router.Init(r)
 	err := r.Run()
