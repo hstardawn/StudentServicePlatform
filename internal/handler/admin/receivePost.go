@@ -24,34 +24,47 @@ func ReceivePost(c *gin.Context){
 	}
 
 	// 检验用户存在
-	user, err := service.GetUserByUserid(data.AdminID)
+	user, err := service.GetUserByUserID(data.AdminID)
 	if err != nil {
-		_ = c.AbortWithError(200, apiException.UserNotFound)
+		_ = c.AbortWithError(200, apiException.UserNotFind)
 		return
 	}
 	
 	//检验反馈存在
-	post, err := service.GetPostByPostId(data.PostID)
+	post, err := service.GetPostByID(data.PostID)
 	if err != nil {
-		_ =c.AbortWithError(200, apiException.PostNotFound)
+		_ =c.AbortWithError(200, apiException.PostNotFind)
 		return
 	}
 
 	// 检验用户权限
 	if user.UserType==3 {
 		_ =c.AbortWithError(200, apiException.NotAdmin)
+		return
 	}
 
 	// 检查反馈状态
 	if post.Status != 0{
 		_ = c.AbortWithError(200, apiException.ReatHandle)
+		return
 	}
 
 	//接单
-	post.Status = data.Approval
-	post.Response = data.Response
-	err = service.SavePost(*post)
+	if data.Approval == 2{
+		err := service.UpdatePostStatus(data.AdminID,data.PostID,2)
+		if err != nil {
+			_ = c.AbortWithError(200, apiException.UpdatePostError)
+			return
+		}
+	}
+	err = service.ReceivePost(data.AdminID, data.PostID, data.Response)
 	if err!=nil{
+		_ = c.AbortWithError(200, apiException.SaveError)
+		return
+	}
+
+	err = service.UpdatePostStatus(data.AdminID,data.PostID, data.Approval)
+	if err != nil{
 		_ = c.AbortWithError(200, apiException.SaveError)
 		return
 	}

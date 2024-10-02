@@ -23,16 +23,16 @@ func ChangeResonse(c *gin.Context){
 	}
 
 	// 检验用户存在
-	_, err = service.GetUserByUserid(data.AdminID)
+	_, err = service.GetUserByUserID(data.AdminID)
 	if err != nil {
-		_ = c.AbortWithError(200, apiException.UserNotFound)
+		_ = c.AbortWithError(200, apiException.UserNotFind)
 		return
 	}
 	
 	//检验反馈存在
-	post, err := service.GetPostByPostId(data.PostID)
+	post, err := service.GetPostByID(data.PostID)
 	if err != nil {
-		_ = c.AbortWithError(200, apiException.PostNotFound)
+		_ = c.AbortWithError(200, apiException.PostNotFind)
 		return
 	}
 
@@ -41,8 +41,7 @@ func ChangeResonse(c *gin.Context){
 		_ = c.AbortWithError(200, apiException.AdminUncompaired)
 	}
 
-	post.Response =data.Response
-	err = service.ChangeResonse(post)
+	err = service.ChangeResonse(data.PostID, data.Response)
 	if err != nil{
 		_ = c.AbortWithError(200, apiException.SaveError)
 		return
