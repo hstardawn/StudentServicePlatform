@@ -15,22 +15,22 @@ type quashHandle struct {
 
 func QuashHandle(c *gin.Context) {
 	var data quashHandle
-	err := c.ShouldBind(&data)
+	err := c.ShouldBindQuery(&data)
 	if  err != nil {
 		_ = c.AbortWithError(200, apiException.ParamError)
 		return
 	}
 	// 检验用户存在
-	_ , err = service.GetUserByUserid(data.AdminID)
+	_ , err = service.GetUserByUserID(data.AdminID)
 	if err != nil {
-		_ = c.AbortWithError(200, apiException.UserNotFound)
+		_ = c.AbortWithError(200, apiException.UserNotFind)
 		return
 	}
 
 	// 检验反馈存在
-	post, err := service.GetPostByPostId(data.PostID)
+	post, err := service.GetPostByID(data.PostID)
 	if err != nil {
-		_ = c.AbortWithError(200, apiException.PostNotFound)
+		_ = c.AbortWithError(200, apiException.PostNotFind)
 		return
 	}
 
@@ -41,13 +41,15 @@ func QuashHandle(c *gin.Context) {
 	}
 
 	// 撤销
-	post.Status = 0
-	post.AdminID = 0
-	post.Response = ""
-	err = service.QuashPost(post)
+	err = service.QuashPost(data.PostID)
 	if err!=nil{
 		_ = c.AbortWithError(200, apiException.SaveError)
 		return
+	}
+	err = service.UpdatePostStatus(data.AdminID, data.PostID, 0)
+	if err != nil{
+		_ = c.AbortWithError(200, apiException.UpdatePostError)
+		return 
 	}
 
 	utils.JsonSuccess(c, nil)

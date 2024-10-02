@@ -2,18 +2,21 @@ package service
 
 import "StudentServicePlatform/internal/model"
 
-func QueryUnhandlePost() ([]*model.Post, error) {
-	return d.QueryUnhandlePost(ctx)
+func QueryUnhandlePost() ([]model.Post, error) {
+	return d.QueryPost(ctx, 0)
 }
 
-func ReceivePost(post *model.Post) error {
-	return d.SavePost(ctx, *post)
+func UpdatePostStatus(adminID int, postID int, approval int) error {
+	return d.UpdatePostStatus(ctx, adminID, postID, approval)
+}
+func ReceivePost(UserID int,postID int, response string) error {
+	return d.ReceivePost(ctx, UserID, postID, response)
 }
 
-func QuashPost(post *model.Post) error {
-	return d.SavePost(ctx, *post)
+func QuashPost(postID int) error {
+	return d.DeleteResponse(ctx, postID)
 }
 
-func ChangeResonse(post *model.Post) error {
-	return d.SavePost(ctx, *post)
+func ChangeResonse(postID int, response string) error {
+	return d.ChangeResonse(ctx,  postID, response)
 }

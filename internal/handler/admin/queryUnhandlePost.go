@@ -21,21 +21,21 @@ func QueryUnhandlePost(c *gin.Context) {
 	}
 
 	//检验用户存在
-	user, err := service.GetUserByUserid(data.AdminID)
+	user, err := service.GetUserByUserID(data.AdminID)
 	if err != nil {
-		_ = c.AbortWithError(200, apiException.UserNotFound)
+		_ = c.AbortWithError(200, apiException.UserNotFind)
 		return
 	}
 
 	//检验用户权限
-	if user.UserType==3 {
+	if user.UserType == 0 {
 		_ = c.AbortWithError(200, apiException.NotAdmin)
 		return
 	}
 
 	postList, err := service.QueryUnhandlePost()
 	if err != nil {
-		_ = c.AbortWithError(200, apiException.SearchError)
+		_ = c.AbortWithError(200, apiException.GetPostListError)
 		return
 	}
 	utils.JsonSuccess(c, gin.H{

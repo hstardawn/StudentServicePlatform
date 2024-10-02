@@ -19,7 +19,6 @@ func main() {
 	r.Use(middleware.ErrHandler())
 	r.NoMethod(middleware.HandleNotFond)
 	r.NoRoute(middleware.HandleNotFond)
-	r.Use(middleware.ErrHandler())
 	router.Init(r)
 	err := r.Run()
 	if err != nil {
