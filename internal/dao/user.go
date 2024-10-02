@@ -22,14 +22,13 @@ func (d *Dao) GetUserByUsername(ctx context.Context, username int) (*model.User,
 	return &user, err
 }
 
-func (d *Dao) UpdateUser(ctx context.Context, username int, name string, sex string, phone_num int, email string, user_type int, password string) error {
+func (d *Dao) UpdateUser(ctx context.Context, username int, name string, sex string, phone_num int, email string, password string) error {
 	return d.orm.WithContext(ctx).Model(&model.User{}).Where("username=?", username).Updates(map[string]interface{}{
 		"username":  username,
 		"name":      name,
 		"sex":       sex,
 		"phone_num": phone_num,
 		"email":     email,
-		"user_type": user_type,
 		"password":  password,
 	}).Error
 }
