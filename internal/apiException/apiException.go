@@ -62,4 +62,13 @@ var (
 	UserConnotRateResponse    = NewError(http.StatusInternalServerError, 200519, "用户无权做出评价")
 	ResponseRatingError       = NewError(http.StatusInternalServerError, 200520, "评价类型无效")
 	CreateResponseRatingError = NewError(http.StatusInternalServerError, 200521, "做出评价失败")
+
+	NotAdmin =NewError(http.StatusInternalServerError, 200521, "权限不足")
+	ReatHandle =NewError(http.StatusInternalServerError, 200522, "重复接单")
+	SaveError =NewError(http.StatusInternalServerError, 200523, "保存失败")
+	AdminUncompaired =NewError(http.StatusInternalServerError, 200524, "处理人不一致")
 )
+
+func OtherError(message string) *Error {
+	return NewError(http.StatusForbidden, 100403, message)
+}
