@@ -11,8 +11,9 @@ type Post struct {
 	Title          string    `json:"title"`
 	Content        string    `json:"content"`
 	Status         int       `json:"status"`
+	AdminID 	   int       `json:"admin_id"`
 	Response       string    `json:"response"`
 	ResponseRating int       `json:"response_rating"`
 	CreateAt       time.Time `json:"post_time"`
-	UpdatedAt       time.Time `json:"updated_post"`
+	UpdatedAt      time.Time `json:"updated_post"`
 }
