@@ -21,3 +21,4 @@ func JsonSuccess(c *gin.Context, data interface{}) {
 func JsonFail(c *gin.Context, code int, msg string) {
 	JsonResponse(c, http.StatusOK, code, msg, nil)
 }
+
