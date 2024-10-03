@@ -26,7 +26,7 @@ func ReceivePost(c *gin.Context){
 	// 检验用户存在
 	user, err := service.GetUserByUserID(data.AdminID)
 	if err != nil {
-		_ = c.AbortWithError(200, apiException.UserNotFind)
+		_ = c.AbortWithError(200, apiException.AdminNotFind)
 		return
 	}
 	
@@ -39,7 +39,7 @@ func ReceivePost(c *gin.Context){
 
 	// 检验用户权限
 	if user.UserType==3 {
-		_ =c.AbortWithError(200, apiException.NotAdmin)
+		_ =c.AbortWithError(200, apiException.LackRight)
 		return
 	}
 
@@ -59,7 +59,7 @@ func ReceivePost(c *gin.Context){
 	}
 	err = service.ReceivePost(data.AdminID, data.PostID, data.Response)
 	if err!=nil{
-		_ = c.AbortWithError(200, apiException.SaveError)
+		_ = c.AbortWithError(200, apiException.HandleError)
 		return
 	}
 

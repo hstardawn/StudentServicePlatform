@@ -14,7 +14,7 @@ type changeResonse struct {
 	Response string `json:"resonse" binding:"required"`
 }
 
-func ChangeResonse(c *gin.Context){
+func ChangeResponse(c *gin.Context){
 	var data changeResonse
 	err := c.ShouldBindJSON(&data)
 	if err != nil {
@@ -25,7 +25,7 @@ func ChangeResonse(c *gin.Context){
 	// 检验用户存在
 	_, err = service.GetUserByUserID(data.AdminID)
 	if err != nil {
-		_ = c.AbortWithError(200, apiException.UserNotFind)
+		_ = c.AbortWithError(200, apiException.AdminNotFind)
 		return
 	}
 	
@@ -41,7 +41,7 @@ func ChangeResonse(c *gin.Context){
 		_ = c.AbortWithError(200, apiException.AdminUncompaired)
 	}
 
-	err = service.ChangeResonse(data.PostID, data.Response)
+	err = service.ChangeResponse(data.PostID, data.Response)
 	if err != nil{
 		_ = c.AbortWithError(200, apiException.SaveError)
 		return

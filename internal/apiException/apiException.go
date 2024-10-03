@@ -59,10 +59,16 @@ var (
 	ResponseRatingError       = NewError(http.StatusInternalServerError, 200519, "评价类型无效")
 	CreateResponseRatingError = NewError(http.StatusInternalServerError, 200520, "做出评价失败")
 
-	NotAdmin =NewError(http.StatusInternalServerError, 200521, "权限不足")
+	LackRight =NewError(http.StatusInternalServerError, 200521, "权限不足")
 	ReatHandle =NewError(http.StatusInternalServerError, 200522, "重复接单")
 	SaveError =NewError(http.StatusInternalServerError, 200523, "保存失败")
 	AdminUncompaired =NewError(http.StatusInternalServerError, 200524, "处理人不一致")
+	HandleError =NewError(http.StatusInternalServerError, 200525, "处理失败")
+	PostNotHandle =NewError(http.StatusInternalServerError, 200526, "帖子未处理")
+	GetAdminListError = NewError(http.StatusInternalServerError, 200527, "获取管理员列表失败")
+	AdminNotFind =NewError(http.StatusInternalServerError, 200528, "管理员不存在")
+	UpdateRightError =NewError(http.StatusInternalServerError, 200529, "更权失败")
+	GetUserError =NewError(http.StatusInternalServerError, 200530, "获取用户失败")
 )
 func OtherError(message string) *Error {
 	return NewError(http.StatusForbidden, 100403, message)

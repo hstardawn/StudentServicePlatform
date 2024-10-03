@@ -14,10 +14,7 @@ import (
 type RegisterData struct{
 	Username int    `json:"username" binding:"required"`
 	Name     string `json:"name" binding:"required"`
-	// Sex      string `json:"sex"`
-	// PhoneNum int    `json:"phone_num" binding:"required"`
 	Email    string `json:"email" binding:"required"`
-	// UserType int    `json:"user_type" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
 

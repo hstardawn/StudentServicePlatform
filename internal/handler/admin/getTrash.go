@@ -8,19 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type queryUnhandlePost struct {
+type getTrash struct {
 	AdminID int `form:"admin_id" binding:"required"`
 }
 
-func QueryUnhandlePost(c *gin.Context) {
-	var data queryUnhandlePost
-	err := c.ShouldBind(&data)
-	if err != nil{
+func GetTrash(c *gin.Context) {
+	var data getTrash
+	err := c.ShouldBindQuery(&data)
+	if  err != nil {
 		_ = c.AbortWithError(200, apiException.ParamError)
 		return
 	}
-
-	//检验用户存在
+	// 检验用户存在
 	user, err := service.GetUserByUserID(data.AdminID)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.AdminNotFind)
@@ -28,17 +27,18 @@ func QueryUnhandlePost(c *gin.Context) {
 	}
 
 	//检验用户权限
-	if user.UserType == 0 {
+	if user.UserType != 2 {
 		_ = c.AbortWithError(200, apiException.LackRight)
 		return
 	}
 
-	postList, err := service.QueryUnhandlePost()
+	// 获取垃圾信息
+	trashList, err := service.QueryTrash()
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.GetPostListError)
 		return
 	}
 	utils.JsonSuccess(c, gin.H{
-		"post_list": postList,
+		"post_list": trashList,
 	})
 }

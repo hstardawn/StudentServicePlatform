@@ -30,7 +30,20 @@ func (d *Dao)DeleteResponse(ctx context.Context, postID int) error{
 	return err
 }
 
-func (d *Dao)ChangeResonse(ctx context.Context, postID int, response string) error{
-	err := d.orm.WithContext(ctx).Model(&model.Response{}).Where("post_id= ?", postID).Update("post_id", postID).Error
+func (d *Dao)ChangeResponse(ctx context.Context, postID int, response string) error{
+	err := d.orm.WithContext(ctx).Model(&model.Response{}).Where("post_id= ?", postID).Update("response", response).Error
+	return err
+}
+
+func (d *Dao)QueryAdmin(ctx context.Context) ([]model.User, error) {
+	var adminList []model.User
+	err := d.orm.WithContext(ctx).Find(&adminList, "user_type IN ?", []int{1,2}).Error
+	return adminList, err
+}
+
+func (d *Dao) UpdateUserType(ctx context.Context,userID int,userType int) error{
+	err := d.orm.WithContext(ctx).Model(&model.User{}).Where("ID=?", userID).Updates(map[string]interface{}{
+		"user_type": userType,
+	}).Error
 	return err
 }
