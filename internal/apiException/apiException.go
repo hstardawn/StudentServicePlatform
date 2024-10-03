@@ -25,16 +25,15 @@ var (
 	ParamError         = NewError(http.StatusInternalServerError, 200501, "参数错误")
 	UserAlreadyExisted = NewError(http.StatusInternalServerError, 200502, "用户名已存在")
 	PasswordError      = NewError(http.StatusInternalServerError, 200503, "密码长度必须大于8且小于16位")
-	// UserTypeError      = NewError(http.StatusInternalServerError, 200504, "用户类型无效")
 	Register           = NewError(http.StatusInternalServerError, 200504, "注册失败")
 
 	//登录
 	UserNotFind           = NewError(http.StatusInternalServerError, 200505, "该用户不存在")
 	NoThatPasswordOrWrong = NewError(http.StatusInternalServerError, 200506, "密码错误")
 
-    //鉴权
-	ServerError           = NewError(http.StatusInternalServerError, 200507, "系统异常，请稍后重试!")
-	AuthExpired           = NewError(http.StatusInternalServerError, 200508, "登陆状态已过期，请重新登陆")
+	//鉴权
+	ServerError = NewError(http.StatusInternalServerError, 200507, "系统异常，请稍后重试!")
+	AuthExpired = NewError(http.StatusInternalServerError, 200508, "登陆状态已过期，请重新登陆")
 
 	//修改用户信息
 	UpdateUserError = NewError(http.StatusInternalServerError, 200509, "修改用户信息失败")
@@ -42,6 +41,12 @@ var (
 	//提交反馈
 	PostTypeError   = NewError(http.StatusInternalServerError, 200510, "反馈类型无效")
 	CreatePostError = NewError(http.StatusInternalServerError, 200511, "提交反馈失败")
+
+	//上传图片
+	FileTypeError      = NewError(http.StatusInternalServerError, 200512, "文件不是图片类型")
+	ParseFormDataError = NewError(http.StatusInternalServerError, 200513, "解析表单数据失败")
+	FileExistedError    = NewError(http.StatusInternalServerError, 200514, "文件已存在")
+	GetFileError       = NewError(http.StatusInternalServerError, 200514, "获取文件失败")
 
 	//修改反馈
 	PostNotFind          = NewError(http.StatusInternalServerError, 200512, "反馈不存在")
@@ -63,10 +68,10 @@ var (
 	ResponseRatingError       = NewError(http.StatusInternalServerError, 200520, "评价类型无效")
 	CreateResponseRatingError = NewError(http.StatusInternalServerError, 200521, "做出评价失败")
 
-	NotAdmin =NewError(http.StatusInternalServerError, 200521, "权限不足")
-	ReatHandle =NewError(http.StatusInternalServerError, 200522, "重复接单")
-	SaveError =NewError(http.StatusInternalServerError, 200523, "保存失败")
-	AdminUncompaired =NewError(http.StatusInternalServerError, 200524, "处理人不一致")
+	NotAdmin         = NewError(http.StatusInternalServerError, 200521, "权限不足")
+	ReatHandle       = NewError(http.StatusInternalServerError, 200522, "重复接单")
+	SaveError        = NewError(http.StatusInternalServerError, 200523, "保存失败")
+	AdminUncompaired = NewError(http.StatusInternalServerError, 200524, "处理人不一致")
 )
 
 func OtherError(message string) *Error {
