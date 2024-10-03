@@ -41,7 +41,12 @@ func Init(r *gin.Engine){
 			adminGroup.GET("/handlepost", admin.QueryUnhandlePost)
 			adminGroup.POST("/handlepost", admin.ReceivePost)
 			adminGroup.DELETE("/handlepost", admin.QuashHandle)
-			adminGroup.PUT("/handlepost", admin.ChangeResonse)
+			adminGroup.PUT("/handlepost", admin.ChangeResponse)
+
+			adminGroup.GET("/superadmin", admin.GetTrash)
+			adminGroup.POST("/superadmin", admin.HandleTrash)
+			adminGroup.GET("/superadmin/queryadmin", admin.QueryAdmin)
+			adminGroup.PUT("/superadmin", admin.UpdateAdmin)
 		}
 	}
 }

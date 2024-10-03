@@ -23,7 +23,7 @@ func QuashHandle(c *gin.Context) {
 	// 检验用户存在
 	_ , err = service.GetUserByUserID(data.AdminID)
 	if err != nil {
-		_ = c.AbortWithError(200, apiException.UserNotFind)
+		_ = c.AbortWithError(200, apiException.AdminNotFind)
 		return
 	}
 
