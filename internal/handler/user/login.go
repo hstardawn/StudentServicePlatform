@@ -27,8 +27,9 @@ func Login(c *gin.Context) {
 		return
 	}
 	user, _ := service.GetUserPassword(data.Username)
-	if user.Password != data.Password {
-		_ = c.AbortWithError(200, apiException.NoThatPasswordOrWrong) //密码错误
+	err = utils.CheckPassword(data.Password, user.Password)
+	if err != nil {
+		_ = c.AbortWithError(200, apiException.NoThatPasswordOrWrong)
 		return
 	}
 	utils.JsonSuccess(c, user)

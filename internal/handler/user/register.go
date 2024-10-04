@@ -71,7 +71,14 @@ func Register(c *gin.Context){
 		return
 	}
 
-	err=service.Register(data.Username,data.Name,data.Email,data.Password)
+	// 加密密码
+	hashpassword , err:= utils.HashPassword(data.Password)
+	if err != nil{
+		_ = c.AbortWithError(200, apiException.EncryptionFailed)
+		return
+	}
+	
+	err=service.Register(data.Username,data.Name,data.Email,hashpassword)
 	if err!=nil{
 		_ = c.AbortWithError(200, apiException.Register) //注册失败
 		return

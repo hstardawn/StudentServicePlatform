@@ -80,6 +80,7 @@ var (
 	GetUserError =NewError(http.StatusInternalServerError, 200530, "获取用户失败")
 	SendError =NewError(http.StatusInternalServerError, 200531, "发送验证码失败")
 	VartiyError =NewError(http.StatusInternalServerError, 200532, "验证码不匹配")
+	EncryptionFailed =NewError(http.StatusInternalServerError, 200533, "加密失败")
 )
 
 func OtherError(message string) *Error {
