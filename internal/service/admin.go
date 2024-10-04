@@ -1,6 +1,8 @@
 package service
 
-import "StudentServicePlatform/internal/model"
+import (
+	"StudentServicePlatform/internal/model"
+)
 
 func QueryUnhandlePost() ([]model.Post, error) {
 	postList, err:=d.QueryPost(ctx, 0)

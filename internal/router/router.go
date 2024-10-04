@@ -24,6 +24,7 @@ func Init(r *gin.Engine){
 			userGroup.POST("/register",user.Register)
 			userGroup.POST("/login",user.Login)
 			userGroup.PUT("/update",user.UpdateUser)
+			userGroup.POST("/send_code", user.SendCode)
 		}
 
 		studentGroup := api.Group("/student")

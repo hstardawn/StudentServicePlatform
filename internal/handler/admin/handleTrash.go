@@ -48,13 +48,16 @@ func HandleTrash(c *gin.Context) {
 		return
 	} else if post.Status == 0 {
 		_ = c.AbortWithError(200, apiException.PostNotHandle)
+		return
 	}
 
 	// 处理
 	err = service.HandleTrash(data.AdminID, data.PostID, data.Approval)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.HandleError)
+		return
 	}
+	
 
 	utils.JsonSuccess(c, nil)
 }
