@@ -3,8 +3,10 @@ module StudentServicePlatform
 go 1.22.5
 
 require (
-	github.com/gin-gonic/gin v1.10.0
-	github.com/spf13/viper v1.19.0
+	github.com/gin-gonic/gin v1.3.0
+	github.com/spf13/viper v1.3.2
+	golang.org/x/net v0.29.0
+	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12
 )
@@ -67,9 +69,9 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/testify v1.9.0 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
-	golang.org/x/net v0.29.0 // indirect
 	golang.org/x/sys v0.25.0 // indirect
 	golang.org/x/text v0.18.0 // indirect
+	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
