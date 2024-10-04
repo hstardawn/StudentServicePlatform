@@ -5,7 +5,6 @@ go 1.22.5
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
-	github.com/smartystreets/goconvey v1.8.1
 	github.com/spf13/viper v1.19.0
 	golang.org/x/net v0.29.0
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
@@ -37,7 +36,7 @@ require (
 	go.uber.org/multierr v1.9.0 // indirect
 	golang.org/x/arch v0.8.0 // indirect
 	golang.org/x/crypto v0.27.0 // indirect
-	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
+	golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
