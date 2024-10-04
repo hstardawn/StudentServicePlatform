@@ -10,6 +10,7 @@ type Post struct {
 	PostType       int       `json:"post_type"`
 	Title          string    `json:"title"`
 	Content        string    `json:"content"`
+	Filename       string    `json:"filename"`
 	Status         int       `json:"status"`
 	AdminID 	   int       `json:"admin_id"`
 	Response       string    `json:"response"`

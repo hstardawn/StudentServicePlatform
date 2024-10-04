@@ -22,28 +22,28 @@ type GetAdmin struct {
 	UserType int    `json:"user_type"`
 }
 
-func QueryAdmin(c *gin.Context){
+func QueryAdmin(c *gin.Context) {
 	var data queryAdmin
 	err := c.ShouldBindQuery(&data)
-	if  err != nil {
+	if err != nil {
 		_ = c.AbortWithError(200, apiException.ParamError)
 		return
 	}
 	// 检验用户存在
-	user , err := service.GetUserByUserID(data.AdminID)
+	user, err := service.GetUserByUserID(data.AdminID)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.AdminNotFind)
 		return
 	}
 
 	// 检验用户权限
-	if user.UserType!=2 {
-		_ =c.AbortWithError(200, apiException.LackRight)
+	if user.UserType != 2 {
+		_ = c.AbortWithError(200, apiException.LackRight)
 		return
 	}
 
 	// 获取管理员
-	adminList , err:= service.QueryAdmin()
+	adminList, err := service.QueryAdmin()
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.GetAdminListError)
 		return
@@ -58,13 +58,13 @@ func QueryAdmin(c *gin.Context){
 		}
 		// 3.返回帖子内容
 		admin_list = append(admin_list, GetAdmin{
-			ID      :admin.ID,
-			Username :admin.Username,
-			Name : admin.Name,
-			Sex      :admin.Sex,
-			PhoneNum :admin.PhoneNum,
-			Email    :admin.Email,
-			UserType :admin.UserType,
+			ID:       admin.ID,
+			Username: admin.Username,
+			Name:     admin.Name,
+			Sex:      admin.Sex,
+			PhoneNum: admin.PhoneNum,
+			Email:    admin.Email,
+			UserType: admin.UserType,
 		})
 	}
 

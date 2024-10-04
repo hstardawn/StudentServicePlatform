@@ -1,9 +1,11 @@
 package router
 
 import (
-	"StudentServicePlatform/internal/handler/student"
-	"StudentServicePlatform/internal/handler/user"
 	"StudentServicePlatform/internal/handler/admin"
+	"StudentServicePlatform/internal/handler/student"
+	"StudentServicePlatform/internal/handler/upload"
+	"StudentServicePlatform/internal/handler/user"
+	// "StudentServicePlatform/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,6 +14,11 @@ func Init(r *gin.Engine){
 	const pre = "/api"
 	api:=r.Group(pre)
 	{	
+		uploadGroup:= api.Group("/upload")
+		{
+			// uploadGroup.Use(middleware.IsLogin)
+			uploadGroup.POST("/image",upload.UploadImage)
+		}
 		userGroup := api.Group("/user")
 		{
 			userGroup.POST("/register",user.Register)

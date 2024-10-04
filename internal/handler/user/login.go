@@ -2,6 +2,8 @@ package user
 
 import (
 	"StudentServicePlatform/internal/apiException"
+	// "StudentServicePlatform/internal/model"
+	// "StudentServicePlatform/internal/model"
 	"StudentServicePlatform/internal/service"
 	"StudentServicePlatform/pkg/utils"
 
@@ -29,9 +31,10 @@ func Login(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.NoThatPasswordOrWrong) //密码错误
 		return
 	}
-	utils.JsonSuccess(c, gin.H{
-		"user_id":   user.ID,
-		"name":      user.Name,
-		"user_type": user.UserType,
-	})
+	utils.JsonSuccess(c, user)
+	// utils.JsonSuccess(c, gin.H{
+	// 	"user_id":   user.ID,
+	// 	"name":      user.Name,
+	// 	"user_type": user.UserType,
+	// })
 }
