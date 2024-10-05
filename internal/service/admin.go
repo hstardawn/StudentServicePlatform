@@ -37,6 +37,7 @@ func ReceivePost(adminID int,postID int, response string) error {
 	})
 	return err
 }
+
 func QuashPost(postID int) error {
 	err := d.DeleteResponse(ctx, postID)
 	return err

@@ -41,6 +41,7 @@ func CreatePost(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.CreatePostError) //提交反馈失败
 		return
 	}
+	
 	utils.JsonSuccess(c, nil)
 }
 

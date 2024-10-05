@@ -11,11 +11,31 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type SendCodeData struct {
+	Email string `json:"email"`
+}
+
+func SendCode(c *gin.Context) {
+	var data SendCodeData
+	if err := c.ShouldBindJSON(&data); err != nil {
+		_ = c.AbortWithError(200, apiException.ParamError)
+		return
+	}
+
+	code := service.GenerateVerificationCode()
+	if err := service.SendVerifyCode( data.Email, code); err != nil {
+		_ = c.AbortWithError(200, apiException.SendError)
+	return
+}
+	utils.JsonSuccess(c, nil)
+}
+
 type RegisterData struct{
 	Username int    `json:"username" binding:"required"`
 	Name     string `json:"name" binding:"required"`
 	Email    string `json:"email" binding:"required"`
 	Password string `json:"password" binding:"required"`
+	Code string `json:"code" binding:"required"`
 }
 
 func Register(c *gin.Context){
@@ -48,7 +68,20 @@ func Register(c *gin.Context){
 	// 	_ = c.AbortWithError(200, apiException.UserTypeError) //用户类型无效
 	// 	return
 	// }
-	err=service.Register(data.Username,data.Name,data.Email,data.Password)
+	// 校验验证码
+	if !service.VerifyVerificationCode(data.Email, data.Code) {
+		_ = c.AbortWithError(200, apiException.VartiyError)
+		return
+	}
+
+	// 加密密码
+	hashpassword , err:= utils.HashPassword(data.Password)
+	if err != nil{
+		_ = c.AbortWithError(200, apiException.EncryptionFailed)
+		return
+	}
+	
+	err=service.Register(data.Username,data.Name,data.Email,hashpassword)
 	if err!=nil{
 		_ = c.AbortWithError(200, apiException.Register) //注册失败
 		return
