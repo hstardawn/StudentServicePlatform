@@ -2,20 +2,22 @@ package student
 
 import (
 	"StudentServicePlatform/internal/apiException"
-	"StudentServicePlatform/internal/model"
 	"StudentServicePlatform/internal/service"
 	"StudentServicePlatform/pkg/utils"
+	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 type CreatePostData struct {
-	UserID      int    `json:"user_id" binding:"required"`
-	IsAnonymous int    `json:"is_anonymous" binding:"required"`
-	IsUrgent    int    `json:"is_urgent" binding:"required"`
-	PostType    int    `json:"post_type" binding:"required"`
-	Title       string `json:"title" binding:"required"`
-	Content     string `json:"content" binding:"required"`
+	UserID      int    `json:"user_id"`
+	Name        string `json:"name"`
+	IsAnonymous int    `json:"is_anonymous"`
+	IsUrgent    int    `json:"is_urgent"`
+	PostType    int    `json:"post_type"`
+	Title       string `json:"title"`
+	Content     string `json:"content"`
 }
 
 func CreatePost(c *gin.Context) {
@@ -34,7 +36,7 @@ func CreatePost(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.PostTypeError) //反馈类型无效
 		return
 	}
-	err = service.CreatePost(data.UserID, data.IsAnonymous, data.IsUrgent, data.PostType, data.Title, data.Content)
+	err = service.CreatePost(data.UserID, data.Name, data.IsAnonymous, data.IsUrgent, data.PostType, data.Title, data.Content)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.CreatePostError) //提交反馈失败
 		return
@@ -119,15 +121,54 @@ func DeletePost(c *gin.Context) {
 	utils.JsonSuccess(c, nil)
 }
 
-func GetPostList(c *gin.Context) {
-	var postList []model.Post
-	postList, err := service.GetPostList()
-	if err != nil {
-		_ = c.AbortWithError(200, apiException.GetPostListError) //获取反馈列表失败
-		return
-	}
-	utils.JsonSuccess(c, gin.H{
-		"post_list": postList,
-	})
+type PostResponse struct {
+	ID             int       `json:"post_id"`
+	UserID         int       `json:"user_id"`
+	Name           string    `json:"name"`
+	IsAnonymous    int       `json:"is_anonymous"`
+	IsUrgent       int       `json:"is_urgent"`
+	PostType       int       `json:"post_type"`
+	Title          string    `json:"title"`
+	Content        string    `json:"content"`
+	Response       string    `json:"response"`
+	ResponseRating int       `json:"response_rating"`
+	Status         int       `json:"status"`
+	CreateAt       time.Time `json:"post_time"`
+	ResponseAt     time.Time `json:"response_time"`
 }
 
+func GetPostList(c *gin.Context) {
+
+	postList, err := service.GetPostList()
+	if err != nil {
+		_ = c.AbortWithError(http.StatusOK, apiException.GetPostListError) //获取反馈列表失败
+		return
+	}
+
+	postResponseList := make([]PostResponse, len(postList))
+	for index, post := range postList {
+		response, err := service.GetResponseByPostID(post.ID)
+		if err != nil {
+			_ = c.AbortWithError(http.StatusOK, apiException.ServerError) //系统异常，请稍后重试!
+			return
+		}
+		postResponseList[index] = PostResponse{
+			ID:             post.ID,
+			UserID:         post.UserID,
+			Name:           post.Name,
+			IsAnonymous:    post.IsAnonymous,
+			IsUrgent:       post.IsUrgent,
+			PostType:       post.PostType,
+			Title:          post.Title,
+			Content:        post.Content,
+			Response:       response.Response,
+			ResponseRating: response.ResponseRating,
+			Status:         post.Status,
+			CreateAt:       post.CreateAt,
+			ResponseAt:     response.CreateAt,
+		}
+
+	}
+	//fmt.Println(postResponseList)
+	utils.JsonSuccess(c, postResponseList)
+}
