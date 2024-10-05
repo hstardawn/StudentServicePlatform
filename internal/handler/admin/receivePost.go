@@ -69,5 +69,14 @@ func ReceivePost(c *gin.Context){
 		return
 	}
 
+	// 发件通知用户
+	user, err = service.GetUserByUserID(post.UserID)
+	if err != nil{
+		_ = c.AbortWithError(200, apiException.GetUserError)
+		return
+	}
+	
+	service.SendMail(user.Email, user.Name, "已收到您的反馈，很抱歉给您带来了不便，客服会尽快为您处理。")
+
 	utils.JsonSuccess(c, nil)
 }

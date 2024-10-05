@@ -25,7 +25,7 @@ func CreatePost(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.ParamError) //参数错误
 		return
 	}
-	user, err := service.GetUserByUserID(data.UserID)
+	_, err = service.GetUserByUserID(data.UserID)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.UserNotFind) //用户不存在
 		return
@@ -40,7 +40,6 @@ func CreatePost(c *gin.Context) {
 		return
 	}
 	
-	service.SendMail(user.Email, user.Name, "请您在提交反馈时确保内容的有效性和准确性，感谢您的理解和配合。如有异议，请重新反馈。")
 	utils.JsonSuccess(c, nil)
 }
 
