@@ -56,6 +56,7 @@ func QueryAdmin(c *gin.Context) {
 			_ = c.AbortWithError(200, apiException.GetUserError)
 			return
 		}
+		
 		// 3.返回帖子内容
 		admin_list = append(admin_list, GetAdmin{
 			ID:       admin.ID,
