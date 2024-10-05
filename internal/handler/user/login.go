@@ -26,8 +26,9 @@ func Login(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.UserNotFind) //用户不存在
 		return
 	}
+	
 	user, _ := service.GetUserPassword(data.Username)
-	err = utils.CheckPassword(data.Password, user.Password)
+	err = utils.CheckPassword(user.Password, data.Password)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.NoThatPasswordOrWrong)
 		return
