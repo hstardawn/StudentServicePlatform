@@ -13,7 +13,7 @@ func (d *Dao) GetUserByUserID(ctx context.Context, id int) (*model.User, error) 
 }
 
 func (d *Dao) CreatePost(ctx context.Context, post *model.Post) error {
-    post.CreateAt = time.Now()
+	post.CreateAt = time.Now()
 	return d.orm.WithContext(ctx).Create(post).Error
 }
 
@@ -54,20 +54,41 @@ func (d *Dao) GetPostList(ctx context.Context) ([]model.Post, error) {
 	return posts, nil
 }
 
-func (d *Dao)GetResponse(ctx context.Context,user_id int)([]model.Response,error){
+func (d *Dao) GetResponseList(ctx context.Context) ([]model.Response, error) {
 	var responses []model.Response
-	err:= d.orm.WithContext(ctx).Find(&responses).Model(&model.Response{}).Where("user_id=?",user_id).Error
-	if err!=nil{
-		return nil,err
-	}
-	return responses,nil
+	err := d.orm.WithContext(ctx).Find(&responses).Error
+	// if err!=nil{
+	// 	return nil,err
+	// }
+	// return responses,nil
+	return responses, err
 }
 
-func (d *Dao)GetResponseByPostID(ctx context.Context,post_id int)(*model.Response,error){
+func (d *Dao) GetResponse(ctx context.Context, post_id int) ([]model.Response, error) {
+	var responses []model.Response
+	err:= d.orm.WithContext(ctx).Model(&model.Response{}).Where("post_id=?", post_id).Find(&responses).Error
+	// if err != nil {
+	// 	return nil, err
+	// }
+	return responses, err
+}
+
+func (d *Dao) GetPostByUserID(ctx context.Context, user_id int) (*model.Post, error){
+	var posts model.Post
+	err:= d.orm.WithContext(ctx).Model(&model.Post{}).Where("user_id=?", user_id).Find(&posts).Error
+	// if err!= nil {
+	// 	return nil, err
+	// }
+
+	// PostID := posts.ID
+	return &posts, err
+}
+
+func (d *Dao) GetResponseByPostID(ctx context.Context, post_id int) (*model.Response, error) {
 	var response model.Response
-	err:= d.orm.WithContext(ctx).Find(&response).Where("post_id=?",post_id).Error
-	if err!=nil{
-		return nil,err
-	}
-	return &response,nil
+	err := d.orm.WithContext(ctx).Model(&model.Response{}).Where("post_id=?", post_id).Find(&response).Error
+	// if err != nil {
+	// 	return nil, err
+	// }
+	return &response, err
 }

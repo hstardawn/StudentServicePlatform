@@ -2,6 +2,8 @@ package service
 
 import (
 	"StudentServicePlatform/internal/model"
+	"time"
+	// "time"
 )
 
 func QueryUnhandlePost() ([]model.Post, error) {
@@ -9,12 +11,30 @@ func QueryUnhandlePost() ([]model.Post, error) {
 	return postList, err
 }
 
-func UpdatePostStatus(adminID int, postID int, approval int) error {
-	err := d.UpdatePostStatus(ctx, adminID, postID, approval)
+func UpdatePostStatus(adminID int, postID int, status int) error {
+	err := d.UpdatePostStatus(ctx, adminID, postID, status)
 	return err
 }
-func ReceivePost(UserID int,postID int, response string) error {
-	err := d.ReceivePost(ctx, UserID, postID, response)
+func GetPostResponseTime(postID int) (time.Time, error){
+	create_at, err := d.GetPostResponseTime(ctx, postID)
+	return create_at, err
+}
+
+func UpdatePostResponseTime( ID int,response_time time.Time) error {
+	err := d.UpdatePostResponseTime(ctx, ID,response_time)
+	return err
+}
+// func ReceivePost(userID int,postID int, response string) error {
+// 	err := d.ReceivePost(ctx,postID,userID,response)
+// 	return err
+// }
+func ReceivePost(adminID int,postID int, response string) error {
+	err := d.ReceivePost(ctx,&model.Response{
+		PostID: postID,
+		AdminID: adminID,
+		Response: response,
+		CreateAt: time.Now(),
+	})
 	return err
 }
 

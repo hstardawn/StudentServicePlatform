@@ -35,17 +35,14 @@ func GetResponse(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.UserNotFind) //用户不存在
 		return
 	}
-	// responses, err := service.GetResponseByPostID(data.PostID)
-	// if err != nil {
-	// 	_ = c.AbortWithError(200, apiException.PostNotFind) //反馈不存在
-	// 	return
-	// }
-	// if responses.UserID != data.UserID {
-	// 	_ = c.AbortWithError(200, apiException.UserConnotDeletePost) //无权删除帖子
-	// 	return
-	// }
+	Posts, err := service.GetPostByUserID(data.UserID)
+	//fmt.Println(Posts)
+	if err != nil {
+		_ = c.AbortWithError(200, apiException.GetPostError) //用户没有提出反馈
+		return
+	}
 	var response []model.Response
-	response, err = service.GetResponse(data.UserID)
+	response, err = service.GetResponse(Posts.ID)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.GetResponseError) //查看回复失败
 		return
@@ -54,7 +51,6 @@ func GetResponse(c *gin.Context) {
 	for _, response := range response {
 		ResponseList = append(ResponseList, Response{
 			PostID:   response.PostID,
-			Content:  response.Content,
 			Response: response.Response,
 			CreateAt: response.CreateAt,
 		})
@@ -85,6 +81,10 @@ func CreateResponseRating(c *gin.Context) {
 	post, err := service.GetPostByID(data.PostID)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.PostNotFind) //反馈不存在
+		return
+	}
+	if post.Status == 2 {
+		_ = c.AbortWithError(200, apiException.TrashPost) //反馈被标记为垃圾信息
 		return
 	}
 	if post.UserID != data.UserID {
