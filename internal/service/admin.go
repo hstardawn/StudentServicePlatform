@@ -7,7 +7,7 @@ import (
 )
 
 func QueryUnhandlePost() ([]model.Post, error) {
-	postList, err:=d.QueryPost(ctx, 0)
+	postList, err := d.QueryPost(ctx, 0)
 	return postList, err
 }
 
@@ -15,23 +15,24 @@ func UpdatePostStatus(adminID int, postID int, status int) error {
 	err := d.UpdatePostStatus(ctx, adminID, postID, status)
 	return err
 }
-func GetPostResponseTime(postID int) (time.Time, error){
-	create_at, err := d.GetPostResponseTime(ctx, postID)
-	return create_at, err
-}
+// func GetPostResponseTime(postID int) (time.Time, error) {
+// 	create_at, err := d.GetPostResponseTime(ctx, postID)
+// 	return create_at, err
+// }
 
-func UpdatePostResponseTime( ID int,response_time time.Time) error {
-	err := d.UpdatePostResponseTime(ctx, ID,response_time)
-	return err
-}
-// func ReceivePost(userID int,postID int, response string) error {
-// 	err := d.ReceivePost(ctx,postID,userID,response)
+// func UpdatePostResponseTime(ID int, response_time time.Time) error {
+// 	err := d.UpdatePostResponseTime(ctx, ID, response_time)
 // 	return err
 // }
-func ReceivePost(adminID int,postID int, response string) error {
-	err := d.ReceivePost(ctx,&model.Response{
-		PostID: postID,
-		AdminID: adminID,
+
+//	func ReceivePost(userID int,postID int, response string) error {
+//		err := d.ReceivePost(ctx,postID,userID,response)
+//		return err
+//	}
+func ReceivePost(adminID int, postID int, response string) error {
+	err := d.ReceivePost(ctx, &model.Response{
+		PostID:   postID,
+		AdminID:  adminID,
 		Response: response,
 		CreateAt: time.Now(),
 	})
@@ -44,7 +45,7 @@ func QuashPost(postID int) error {
 }
 
 func ChangeResponse(postID int, response string) error {
-	err := d.ChangeResponse(ctx,  postID, response)
+	err := d.ChangeResponse(ctx, postID, response)
 	return err
 }
 
@@ -53,9 +54,9 @@ func QueryTrash() ([]model.Post, error) {
 	return postList, err
 }
 
-func HandleTrash (adminID int, postID int, approval int) error{
-	if approval == 1{
-		err := DeletePost(adminID , postID)
+func HandleTrash(adminID int, postID int, approval int) error {
+	if approval == 1 {
+		err := DeletePost(adminID, postID)
 		return err
 	} else {
 		err := UpdatePostStatus(adminID, postID, 0)
@@ -63,7 +64,7 @@ func HandleTrash (adminID int, postID int, approval int) error{
 	}
 }
 
-func QueryAdmin()([]model.User, error) {
+func QueryAdmin() ([]model.User, error) {
 	adminList, err := d.QueryAdmin(ctx)
 	return adminList, err
 }
@@ -71,4 +72,8 @@ func QueryAdmin()([]model.User, error) {
 func UpdateUserType(userID int, userType int) error {
 	err := d.UpdateUserType(ctx, userID, userType)
 	return err
+}
+
+func GetPostByAdminID(admin_id int) (*model.Post, error) {
+	return d.GetPostByUserID(ctx, admin_id)
 }

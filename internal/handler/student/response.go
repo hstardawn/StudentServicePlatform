@@ -41,6 +41,28 @@ func GetResponse(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.GetPostError) //用户没有提出反馈
 		return
 	}
+
+    // var admin_list []GetAdmin
+	// for _, admin := range adminList {
+	// 	// 2.获取帖子内容
+	// 	admin, err := service.GetUserByUserID(admin.ID)
+	// 	if err != nil {
+	// 		_ = c.AbortWithError(200, apiException.GetUserError)
+	// 		return
+	// 	}
+		
+	// 	// 3.返回帖子内容
+	// 	admin_list = append(admin_list, GetAdmin{
+	// 		ID:       admin.ID,
+	// 		Username: admin.Username,
+	// 		Name:     admin.Name,
+	// 		Sex:      admin.Sex,
+	// 		PhoneNum: admin.PhoneNum,
+	// 		Email:    admin.Email,
+	// 		UserType: admin.UserType,
+	// 	})
+	// }
+
 	var response []model.Response
 	response, err = service.GetResponse(Posts.ID)
 	if err != nil {

@@ -20,16 +20,16 @@ func (d *Dao) UpdatePostStatus(ctx context.Context,adminID int, postID int, stat
 	return err
 }
 
-func (d *Dao)GetPostResponseTime(ctx context.Context, postID int) (time.Time, error){
-	var response model.Response
-	err := d.orm.WithContext(ctx).Model(&model.Response{}).Where("post_id=?", postID).Find(&response).Error
-	create_at := response.CreateAt
-	return create_at, err
-}
-func (d *Dao)UpdatePostResponseTime(ctx context.Context, ID int,response_time time.Time) error{
-	err := d.orm.WithContext(ctx).Model(&model.Post{}).Where("id=?", ID).Updates(&model.Post{ResponseAt: response_time}).Error
-	return err
-}
+// func (d *Dao)GetPostResponseTime(ctx context.Context, postID int) (time.Time, error){
+// 	var response model.Response
+// 	err := d.orm.WithContext(ctx).Model(&model.Response{}).Where("post_id=?", postID).Find(&response).Error
+// 	create_at := response.CreateAt
+// 	return create_at, err
+// }
+// func (d *Dao)UpdatePostResponseTime(ctx context.Context, ID int,response_time time.Time) error{
+// 	err := d.orm.WithContext(ctx).Model(&model.Post{}).Where("id=?", ID).Updates(&model.Post{ResponseAt: response_time}).Error
+// 	return err
+// }
 
 func(d *Dao) ReceivePost(ctx context.Context,response *model.Response) error {
 	// response := model.Response{Response: content, PostID: post_id, AdminID: user_id}
