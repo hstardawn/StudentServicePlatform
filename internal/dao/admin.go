@@ -3,6 +3,7 @@ package dao
 import (
 	"StudentServicePlatform/internal/model"
 	"context"
+	"time"
 )
 
 func (d *Dao) QueryPost(ctx context.Context, status int) ([]model.Post, error) {
@@ -11,17 +12,29 @@ func (d *Dao) QueryPost(ctx context.Context, status int) ([]model.Post, error) {
 	return postList, err
 }
 
-func (d *Dao) UpdatePostStatus(ctx context.Context,adminID int, postID int, approval int) error{
+func (d *Dao) UpdatePostStatus(ctx context.Context,adminID int, postID int, status int) error{
 	err := d.orm.WithContext(ctx).Model(&model.Post{}).Where("id=?", postID).Updates(map[string]interface{}{
-		"status": approval,
+		"status": status,
 		"admin_id": adminID,
 	}).Error
 	return err
 }
 
-func(d *Dao) ReceivePost(ctx context.Context,UserID int, postID int, content string) error {
-	response := model.Response{Response: content, PostID: postID, AdminID: UserID}
-	err := d.orm.WithContext(ctx).Create(&response).Error
+func (d *Dao)GetPostResponseTime(ctx context.Context, postID int) (time.Time, error){
+	var response model.Response
+	err := d.orm.WithContext(ctx).Model(&model.Response{}).Where("post_id=?", postID).Find(&response).Error
+	create_at := response.CreateAt
+	return create_at, err
+}
+func (d *Dao)UpdatePostResponseTime(ctx context.Context, ID int,response_time time.Time) error{
+	err := d.orm.WithContext(ctx).Model(&model.Post{}).Where("id=?", ID).Updates(&model.Post{ResponseAt: response_time}).Error
+	return err
+}
+
+func(d *Dao) ReceivePost(ctx context.Context,response *model.Response) error {
+	// response := model.Response{Response: content, PostID: post_id, AdminID: user_id}
+	response.CreateAt = time.Now()
+	err := d.orm.WithContext(ctx).Create(response).Error
 	return err
 }
 

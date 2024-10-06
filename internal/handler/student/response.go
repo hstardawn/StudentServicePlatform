@@ -10,10 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// 查看回复
 type GetResponseData struct {
 	UserID int `form:"user_id"`
 	// PostID int `form:"post_id"`
-
 }
 
 type Response struct {
@@ -35,29 +35,33 @@ func GetResponse(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.UserNotFind) //用户不存在
 		return
 	}
-	// responses, err := service.GetResponseByPostID(data.PostID)
-	// if err != nil {
-	// 	_ = c.AbortWithError(200, apiException.PostNotFind) //反馈不存在
-	// 	return
-	// }
-	// if responses.UserID != data.UserID {
-	// 	_ = c.AbortWithError(200, apiException.UserConnotDeletePost) //无权删除帖子
-	// 	return
-	// }
-	var response []model.Response
-	response, err = service.GetResponse(data.UserID)
+	Posts, err := service.GetPostByUserID(data.UserID)
+	//fmt.Println(Posts)
 	if err != nil {
-		_ = c.AbortWithError(200, apiException.GetResponseError) //查看回复失败
+		_ = c.AbortWithError(200, apiException.GetPostError) //用户没有提出反馈
 		return
 	}
+	var response []model.Response
 	var ResponseList []Response
-	for _, response := range response {
-		ResponseList = append(ResponseList, Response{
-			PostID:   response.PostID,
-			Content:  response.Content,
-			Response: response.Response,
-			CreateAt: response.CreateAt,
-		})
+	for _,Posts := range Posts {
+		response, err = service.GetResponse(Posts.ID)
+	    if err != nil {
+		    _ = c.AbortWithError(200, apiException.GetResponseError) //查看回复失败
+		    return
+	    }
+	    for _, response := range response {
+		    post, err := service.GetPostByID(response.PostID)
+		    if err!= nil {
+			    _ = c.AbortWithError(200, apiException.GetPostError) //用户没有提出反馈
+			    return
+		    }
+		    ResponseList = append(ResponseList, Response{
+			    PostID:   response.PostID,
+			    Content:  post.Content,
+			    Response: response.Response,
+			    CreateAt: response.CreateAt,
+		    })
+	    }
 	}
 	utils.JsonSuccess(c, gin.H{
 		"response": ResponseList,
@@ -85,6 +89,10 @@ func CreateResponseRating(c *gin.Context) {
 	post, err := service.GetPostByID(data.PostID)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.PostNotFind) //反馈不存在
+		return
+	}
+	if post.Status == 2 {
+		_ = c.AbortWithError(200, apiException.TrashPost) //反馈被标记为垃圾信息
 		return
 	}
 	if post.UserID != data.UserID {

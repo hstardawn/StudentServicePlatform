@@ -38,6 +38,6 @@ func GetUserByUsername(username int) (*model.User, error) {
 	return d.GetUserByUsername(ctx, username)
 }
 
-func UpdateUser(username int, name string, sex string, phone_num int, email string, password string) error {
-	return d.UpdateUser(ctx, username, name, sex, phone_num, email, password)
+func UpdateUser(username int, name string, sex string, phone_num int, /*email string,*/ password string) error {
+	return d.UpdateUser(ctx, username, name, sex, phone_num,/* email,*/ password)
 }
