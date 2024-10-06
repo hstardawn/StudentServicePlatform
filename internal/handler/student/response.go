@@ -10,10 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// 查看回复
 type GetResponseData struct {
 	UserID int `form:"user_id"`
 	// PostID int `form:"post_id"`
-
 }
 
 type Response struct {
@@ -41,41 +41,27 @@ func GetResponse(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.GetPostError) //用户没有提出反馈
 		return
 	}
-
-    // var admin_list []GetAdmin
-	// for _, admin := range adminList {
-	// 	// 2.获取帖子内容
-	// 	admin, err := service.GetUserByUserID(admin.ID)
-	// 	if err != nil {
-	// 		_ = c.AbortWithError(200, apiException.GetUserError)
-	// 		return
-	// 	}
-		
-	// 	// 3.返回帖子内容
-	// 	admin_list = append(admin_list, GetAdmin{
-	// 		ID:       admin.ID,
-	// 		Username: admin.Username,
-	// 		Name:     admin.Name,
-	// 		Sex:      admin.Sex,
-	// 		PhoneNum: admin.PhoneNum,
-	// 		Email:    admin.Email,
-	// 		UserType: admin.UserType,
-	// 	})
-	// }
-
 	var response []model.Response
-	response, err = service.GetResponse(Posts.ID)
-	if err != nil {
-		_ = c.AbortWithError(200, apiException.GetResponseError) //查看回复失败
-		return
-	}
 	var ResponseList []Response
-	for _, response := range response {
-		ResponseList = append(ResponseList, Response{
-			PostID:   response.PostID,
-			Response: response.Response,
-			CreateAt: response.CreateAt,
-		})
+	for _,Posts := range Posts {
+		response, err = service.GetResponse(Posts.ID)
+	    if err != nil {
+		    _ = c.AbortWithError(200, apiException.GetResponseError) //查看回复失败
+		    return
+	    }
+	    for _, response := range response {
+		    post, err := service.GetPostByID(response.PostID)
+		    if err!= nil {
+			    _ = c.AbortWithError(200, apiException.GetPostError) //用户没有提出反馈
+			    return
+		    }
+		    ResponseList = append(ResponseList, Response{
+			    PostID:   response.PostID,
+			    Content:  post.Content,
+			    Response: response.Response,
+			    CreateAt: response.CreateAt,
+		    })
+	    }
 	}
 	utils.JsonSuccess(c, gin.H{
 		"response": ResponseList,

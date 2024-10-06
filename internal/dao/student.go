@@ -5,7 +5,7 @@ import (
 	"context"
 	"time"
 )
-
+//提出反馈
 func (d *Dao) GetUserByUserID(ctx context.Context, id int) (*model.User, error) {
 	var user model.User
 	err := d.orm.WithContext(ctx).Model(&model.User{}).Where("id=?", id).First(&user).Error
@@ -17,6 +17,7 @@ func (d *Dao) CreatePost(ctx context.Context, post *model.Post) error {
 	return d.orm.WithContext(ctx).Create(post).Error
 }
 
+
 // 修改反馈
 func (d *Dao) GetPostByID(ctx context.Context, id int) (*model.Post, error) {
 	var post model.Post
@@ -26,8 +27,8 @@ func (d *Dao) GetPostByID(ctx context.Context, id int) (*model.Post, error) {
 
 func (d *Dao) UpdatePost(ctx context.Context, user_id int, id int, is_anonymous int, is_urgent int, post_type int, title string, content string) error {
 	err := d.orm.WithContext(ctx).Model(&model.Post{}).Where("id=?", id).Updates(map[string]interface{}{
-		"user_id":      user_id,
-		"id":           id,
+		// "user_id":      user_id,
+		// "id":           id,
 		"is_anonymous": is_anonymous,
 		"is_urgent":    is_urgent,
 		"post_type":    post_type,
@@ -38,10 +39,14 @@ func (d *Dao) UpdatePost(ctx context.Context, user_id int, id int, is_anonymous 
 	return err
 }
 
+
+// 删除反馈
 func (d *Dao) DeletePost(ctx context.Context, user_id int, id int) error {
 	return d.orm.WithContext(ctx).Where("id=?", id).Delete(&model.Post{}).Error
 }
 
+
+// 查看反馈
 func (d *Dao) GetPostList(ctx context.Context) ([]model.Post, error) {
 	var posts []model.Post
 	err := d.orm.WithContext(ctx).Find(&posts).Error
@@ -57,38 +62,23 @@ func (d *Dao) GetPostList(ctx context.Context) ([]model.Post, error) {
 func (d *Dao) GetResponseList(ctx context.Context) ([]model.Response, error) {
 	var responses []model.Response
 	err := d.orm.WithContext(ctx).Find(&responses).Error
-	// if err!=nil{
-	// 	return nil,err
-	// }
-	// return responses,nil
 	return responses, err
 }
 
 func (d *Dao) GetResponse(ctx context.Context, post_id int) ([]model.Response, error) {
 	var responses []model.Response
 	err:= d.orm.WithContext(ctx).Model(&model.Response{}).Where("post_id=?", post_id).Find(&responses).Error
-	// if err != nil {
-	// 	return nil, err
-	// }
 	return responses, err
 }
 
-func (d *Dao) GetPostByUserID(ctx context.Context, user_id int) (*model.Post, error){
-	var posts model.Post
+func (d *Dao) GetPostByUserID(ctx context.Context, user_id int) ([]model.Post, error){
+	var posts []model.Post
 	err:= d.orm.WithContext(ctx).Model(&model.Post{}).Where("user_id=?", user_id).Find(&posts).Error
-	// if err!= nil {
-	// 	return nil, err
-	// }
-
-	// PostID := posts.ID
-	return &posts, err
+	return posts, err
 }
 
 func (d *Dao) GetResponseByPostID(ctx context.Context, post_id int) (*model.Response, error) {
 	var response model.Response
 	err := d.orm.WithContext(ctx).Model(&model.Response{}).Where("post_id=?", post_id).Find(&response).Error
-	// if err != nil {
-	// 	return nil, err
-	// }
 	return &response, err
 }

@@ -68,6 +68,17 @@ func ReceivePost(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.SaveError)
 		return
 	}
+	// response_time,err:= service.GetPostResponseTime(data.PostID)
+	// if err!= nil{
+	// 	_ = c.AbortWithError(200, apiException.GetPostResponseTimeError)
+	// 	return
+	// }
+
+	// err=service.UpdatePostResponseTime(data.PostID,response_time)
+	// if err != nil{
+	// 	_ = c.AbortWithError(200, apiException.UpdatePostResponseTimeError)
+	// 	return
+	// }
 
 
 	// response_time,err:= service.GetPostResponseTime(data.PostID)

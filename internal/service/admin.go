@@ -15,20 +15,7 @@ func UpdatePostStatus(adminID int, postID int, status int) error {
 	err := d.UpdatePostStatus(ctx, adminID, postID, status)
 	return err
 }
-// func GetPostResponseTime(postID int) (time.Time, error) {
-// 	create_at, err := d.GetPostResponseTime(ctx, postID)
-// 	return create_at, err
-// }
 
-// func UpdatePostResponseTime(ID int, response_time time.Time) error {
-// 	err := d.UpdatePostResponseTime(ctx, ID, response_time)
-// 	return err
-// }
-
-//	func ReceivePost(userID int,postID int, response string) error {
-//		err := d.ReceivePost(ctx,postID,userID,response)
-//		return err
-//	}
 func ReceivePost(adminID int, postID int, response string) error {
 	err := d.ReceivePost(ctx, &model.Response{
 		PostID:   postID,
@@ -38,7 +25,6 @@ func ReceivePost(adminID int, postID int, response string) error {
 	})
 	return err
 }
-
 func QuashPost(postID int) error {
 	err := d.DeleteResponse(ctx, postID)
 	return err

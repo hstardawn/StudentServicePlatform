@@ -51,7 +51,7 @@ func GetResponse(post_id int) ([]model.Response, error) {
 	return d.GetResponse(ctx, post_id)
 }
 
-func GetPostByUserID(user_id int) (*model.Post, error) {
+func GetPostByUserID(user_id int) ([]model.Post, error) {
 	return d.GetPostByUserID(ctx, user_id)
 }
 

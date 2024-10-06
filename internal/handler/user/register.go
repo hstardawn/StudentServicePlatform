@@ -1,9 +1,6 @@
 package user
 
 import (
-	// "CMS/internal/service"
-	// "CMS/pkg/utils"
-
 	"StudentServicePlatform/internal/apiException"
 	"StudentServicePlatform/internal/service"
 	"StudentServicePlatform/pkg/utils"
@@ -25,8 +22,8 @@ func SendCode(c *gin.Context) {
 	code := service.GenerateVerificationCode()
 	if err := service.SendVerifyCode( data.Email, code); err != nil {
 		_ = c.AbortWithError(200, apiException.SendError)
-	return
-}
+	    return
+    }
 	utils.JsonSuccess(c, nil)
 }
 
@@ -50,12 +47,6 @@ func Register(c *gin.Context){
 		_ = c.AbortWithError(200, apiException.UserAlreadyExisted) //用户已存在
 		return
 	}
-
-	// wrong:=service.IsNumericUsername(data.Username)
-	// if !wrong{
-	// 	utils.JsonFail(c,200502,"用户名只能包含数字")
-	// 	return
-	// }
 	if data.Username<1e11||data.Username>1e12{
 		_ = c.AbortWithError(200, apiException.UsernameError) //用户名长度必须为12位
 		return
@@ -80,7 +71,7 @@ func Register(c *gin.Context){
 		_ = c.AbortWithError(200, apiException.EncryptionFailed)
 		return
 	}
-	
+
 	err=service.Register(data.Username,data.Name,data.Email,hashpassword)
 	if err!=nil{
 		_ = c.AbortWithError(200, apiException.Register) //注册失败

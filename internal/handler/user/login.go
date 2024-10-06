@@ -2,8 +2,6 @@ package user
 
 import (
 	"StudentServicePlatform/internal/apiException"
-	// "StudentServicePlatform/internal/model"
-	// "StudentServicePlatform/internal/model"
 	"StudentServicePlatform/internal/service"
 	"StudentServicePlatform/pkg/utils"
 
@@ -34,9 +32,4 @@ func Login(c *gin.Context) {
 		return
 	}
 	utils.JsonSuccess(c, user)
-	// utils.JsonSuccess(c, gin.H{
-	// 	"user_id":   user.ID,
-	// 	"name":      user.Name,
-	// 	"user_type": user.UserType,
-	// })
 }

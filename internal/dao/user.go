@@ -6,10 +6,13 @@ import (
 	"context"
 )
 
+//注册
 func (d *Dao) CreateUser(ctx context.Context, user *model.User) error {
 	return d.orm.WithContext(ctx).Create(user).Error
 }
 
+
+//登录
 func (d *Dao) GetUserPassword(ctx context.Context, username int) (*model.User, error) {
 	var user model.User
 	err := d.orm.WithContext(ctx).Where("username=?", username).First(&user).Error
@@ -22,13 +25,15 @@ func (d *Dao) GetUserByUsername(ctx context.Context, username int) (*model.User,
 	return &user, err
 }
 
-func (d *Dao) UpdateUser(ctx context.Context, username int, name string, sex string, phone_num int, email string, password string) error {
+
+//修改用户信息
+func (d *Dao) UpdateUser(ctx context.Context, username int, name string, sex string, phone_num int,/* email string,*/ password string) error {
 	return d.orm.WithContext(ctx).Model(&model.User{}).Where("username=?", username).Updates(map[string]interface{}{
-		"username":  username,
+		// "username":  username,
 		"name":      name,
 		"sex":       sex,
 		"phone_num": phone_num,
-		"email":     email,
+		// "email":     email,
 		"password":  password,
 	}).Error
 }
