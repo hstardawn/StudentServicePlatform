@@ -1,6 +1,8 @@
 package service
 
-import "StudentServicePlatform/internal/model"
+import (
+	"StudentServicePlatform/internal/model"
+)
 
 // "CMS/internal/model"
 // "unicode"

@@ -24,6 +24,7 @@ func Init(r *gin.Engine){
 			userGroup.POST("/register",user.Register)
 			userGroup.POST("/login",user.Login)
 			userGroup.PUT("/update",user.UpdateUser)
+			userGroup.POST("/send_code", user.SendCode)
 		}
 
 		studentGroup := api.Group("/student")
@@ -42,6 +43,7 @@ func Init(r *gin.Engine){
 			adminGroup.POST("/handlepost", admin.ReceivePost)
 			adminGroup.DELETE("/handlepost", admin.QuashHandle)
 			adminGroup.PUT("/handlepost", admin.ChangeResponse)
+			adminGroup.GET("/handlepost/getall", admin.GetAllPost)
 
 			adminGroup.GET("/superadmin", admin.GetTrash)
 			adminGroup.POST("/superadmin", admin.HandleTrash)

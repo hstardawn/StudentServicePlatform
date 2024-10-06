@@ -148,7 +148,7 @@ func GetPostList(c *gin.Context) {
 
 	postList, err := service.GetPostList()
 	if err != nil {
-		_ = c.AbortWithError(http.StatusOK, apiException.GetPostListError) //获取反馈列表失败
+		_ = c.AbortWithError(200, apiException.GetPostListError) //获取反馈列表失败
 		return
 	}
 
@@ -174,7 +174,6 @@ func GetPostList(c *gin.Context) {
 			CreateAt:       post.CreateAt,
 			ResponseAt:     response.CreateAt,
 		}
-
 	}
 	//fmt.Println(postResponseList)
 	utils.JsonSuccess(c, postResponseList)

@@ -4,8 +4,8 @@ import "time"
 
 type Post struct {
 	ID             int       `json:"post_id"`
-	Name           string    `json:"name"`
 	UserID         int       `json:"user_id"`
+	Name           string    `json:"name"`
 	IsAnonymous    int       `json:"is_anonymous"`
 	IsUrgent       int       `json:"is_urgent"`
 	PostType       int       `json:"post_type"`
@@ -18,5 +18,5 @@ type Post struct {
 	// ResponseRating int       `json:"response_rating"`
 	CreateAt       time.Time `json:"post_time"`
 	UpdatedAt      time.Time `json:"updated_post"`
-	ResponseAt     time.Time `json:"response_time"`
+	// ResponseAt     time.Time `json:"response_time"`
 }

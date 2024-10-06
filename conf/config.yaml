@@ -3,4 +3,11 @@ mysql:
   host: localhost
   port: 3306
   user: root
-  pass: 123456
+  pass: Hxx332671
+
+redis:
+  host: "121.40.27.84"
+  port: 6379
+  db: 0             #asynq用的是db+1
+  user: 
+  pass: Hxx332671

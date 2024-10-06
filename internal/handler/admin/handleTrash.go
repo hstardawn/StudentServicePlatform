@@ -48,13 +48,18 @@ func HandleTrash(c *gin.Context) {
 		return
 	} else if post.Status == 0 {
 		_ = c.AbortWithError(200, apiException.PostNotHandle)
+		return
 	}
 
 	// 处理
 	err = service.HandleTrash(data.AdminID, data.PostID, data.Approval)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.HandleError)
+		return
 	}
-
+	
+	if data.Approval==1 {
+		service.SendMail(user.Email, user.Name, "请您在提交反馈时确保内容的有效性和准确性，感谢您的理解和配合。如有异议，请重新反馈。")
+	}
 	utils.JsonSuccess(c, nil)
 }

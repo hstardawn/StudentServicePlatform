@@ -85,6 +85,9 @@ var (
 	AdminNotFind                = NewError(http.StatusInternalServerError, 200540, "管理员不存在")
 	UpdateRightError            = NewError(http.StatusInternalServerError, 200541, "更权失败")
 	GetUserError                = NewError(http.StatusInternalServerError, 200542, "获取用户失败")
+	SendError =NewError(http.StatusInternalServerError, 200531, "发送验证码失败")
+	VartiyError =NewError(http.StatusInternalServerError, 200532, "验证码不匹配")
+	EncryptionFailed =NewError(http.StatusInternalServerError, 200533, "加密失败")
 )
 
 func OtherError(message string) *Error {
