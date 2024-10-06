@@ -50,7 +50,7 @@ func (d *Dao)ChangeResponse(ctx context.Context, postID int, response string) er
 
 func (d *Dao)QueryAdmin(ctx context.Context) ([]model.User, error) {
 	var adminList []model.User
-	err := d.orm.WithContext(ctx).Find(&adminList, "user_type IN ?", []int{1,2}).Error
+	err := d.orm.WithContext(ctx).Find(&adminList).Error
 	return adminList, err
 }
 

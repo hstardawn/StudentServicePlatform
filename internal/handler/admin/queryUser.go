@@ -8,11 +8,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type queryAdmin struct {
+type queryUser struct {
 	AdminID int `form:"admin_id" binding:"required"`
 }
 
-type GetAdmin struct {
+type GetUser struct {
 	ID       int    `json:"user_id"`
 	Username int    `json:"username"`
 	Name     string `json:"name"`
@@ -23,7 +23,7 @@ type GetAdmin struct {
 }
 
 func QueryAdmin(c *gin.Context) {
-	var data queryAdmin
+	var data queryUser
 	err := c.ShouldBindQuery(&data)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.ParamError)
@@ -43,33 +43,33 @@ func QueryAdmin(c *gin.Context) {
 	}
 
 	// 获取管理员
-	adminList, err := service.QueryAdmin()
+	userList, err := service.QueryAdmin()
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.GetAdminListError)
 		return
 	}
-	var admin_list []GetAdmin
-	for _, admin := range adminList {
+	var user_list []GetUser
+	for _, admin := range userList {
 		// 2.获取帖子内容
-		admin, err := service.GetUserByUserID(admin.ID)
+		user, err := service.GetUserByUserID(admin.ID)
 		if err != nil {
 			_ = c.AbortWithError(200, apiException.GetUserError)
 			return
 		}
 		
 		// 3.返回帖子内容
-		admin_list = append(admin_list, GetAdmin{
-			ID:       admin.ID,
-			Username: admin.Username,
-			Name:     admin.Name,
-			Sex:      admin.Sex,
-			PhoneNum: admin.PhoneNum,
-			Email:    admin.Email,
-			UserType: admin.UserType,
+		user_list = append(user_list, GetUser{
+			ID:       user.ID,
+			Username: user.Username,
+			Name:     user.Name,
+			Sex:      user.Sex,
+			PhoneNum: user.PhoneNum,
+			Email:    user.Email,
+			UserType: user.UserType,
 		})
 	}
 
 	utils.JsonSuccess(c, gin.H{
-		"admin_list": admin_list,
+		"user_list": user_list,
 	})
 }
