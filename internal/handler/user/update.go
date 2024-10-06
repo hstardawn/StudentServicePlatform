@@ -41,12 +41,19 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 	//加密
+	_ = utils.CheckPassword(user.Password, data.OriginPassword)
 	if user.Password != data.OriginPassword {
 		_ = c.AbortWithError(200, apiException.NoThatPasswordOrWrong) //密码错误
 		return
 	}
-	err = service.UpdateUser(data.Username, data.Name, data.Sex, data.PhoneNum,/* data.Email,*/ data.NewPassword)
+	
 	//解密
+	hashpassword , err:= utils.HashPassword(data.NewPassword)
+	if err != nil{
+		_ = c.AbortWithError(200, apiException.EncryptionFailed)
+		return
+	}
+	err = service.UpdateUser(data.Username, data.Name, data.Sex, data.PhoneNum,/* data.Email,*/ hashpassword)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.UpdateUserError) //修改用户信息失败
 		return

@@ -22,8 +22,8 @@ func SendCode(c *gin.Context) {
 	code := service.GenerateVerificationCode()
 	if err := service.SendVerifyCode( data.Email, code); err != nil {
 		_ = c.AbortWithError(200, apiException.SendError)
-	return
-}
+	    return
+    }
 	utils.JsonSuccess(c, nil)
 }
 
