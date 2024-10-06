@@ -74,6 +74,6 @@ func UpdateUserType(userID int, userType int) error {
 	return err
 }
 
-func GetPostByAdminID(admin_id int) (*model.Post, error) {
-	return d.GetPostByUserID(ctx, admin_id)
+func GetPostByAdminID(admin_id int) ([]model.Post, error) {
+	return d.GetPostByAdminID(ctx, admin_id)
 }

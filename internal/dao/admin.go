@@ -60,3 +60,14 @@ func (d *Dao) UpdateUserType(ctx context.Context,userID int,userType int) error{
 	}).Error
 	return err
 }
+
+func (d *Dao) GetPostByAdminID(ctx context.Context, admin_id int) ([]model.Post, error){
+	var posts []model.Post
+	err:= d.orm.WithContext(ctx).Model(&model.Post{}).Where("admin_id=?", admin_id).Find(&posts).Error
+	// if err!= nil {
+	// 	return nil, err
+	// }
+
+	// PostID := posts.ID
+	return posts, err
+}

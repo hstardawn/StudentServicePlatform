@@ -11,13 +11,13 @@ import (
 )
 
 type CreatePostData struct {
-	UserID      int    `json:"user_id"`
-	Name        string `json:"name"`
-	IsAnonymous int    `json:"is_anonymous"`
-	IsUrgent    int    `json:"is_urgent"`
-	PostType    int    `json:"post_type"`
-	Title       string `json:"title"`
-	Content     string `json:"content"`
+	UserID      int    `json:"user_id" binding:"required"`
+	Name        string `json:"name" binding:"required"`
+	IsAnonymous int    `json:"is_anonymous" binding:"required"`
+	IsUrgent    int    `json:"is_urgent" binding:"required"`
+	PostType    int    `json:"post_type" binding:"required"`
+	Title       string `json:"title" binding:"required"`
+	Content     string `json:"content" binding:"required"`
 }
 
 func CreatePost(c *gin.Context) {
@@ -46,13 +46,13 @@ func CreatePost(c *gin.Context) {
 }
 
 type UpdatePostData struct {
-	UserID      int    `json:"user_id"`
-	ID          int    `json:"post_id"`
-	IsAnonymous int    `json:"is_anonymous"`
-	IsUrgent    int    `json:"is_urgent"`
-	PostType    int    `json:"post_type"`
-	Title       string `json:"title"`
-	Content     string `json:"content"`
+	UserID      int    `json:"user_id"  binding:"required"`
+	ID          int    `json:"post_id"  binding:"required"`
+	IsAnonymous int    `json:"is_anonymous"  binding:"required"`
+	IsUrgent    int    `json:"is_urgent"  binding:"required"`
+	PostType    int    `json:"post_type"  binding:"required"`
+	Title       string `json:"title"  binding:"required"`
+	Content     string `json:"content"  binding:"required"`
 }
 
 func UpdatePost(c *gin.Context) {

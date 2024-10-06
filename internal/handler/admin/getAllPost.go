@@ -37,6 +37,10 @@ func GetAllPost(c *gin.Context) {
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.GetPostListError)
 	}
+	if len(postList)== 0 {
+		utils.JsonSuccess(c, nil)
+		return
+	}
 	utils.JsonSuccess(c,postList)
 
 }
