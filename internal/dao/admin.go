@@ -39,7 +39,7 @@ func(d *Dao) ReceivePost(ctx context.Context,response *model.Response) error {
 }
 
 func (d *Dao)DeleteResponse(ctx context.Context, postID int) error{
-	err := d.orm.WithContext(ctx).Delete(&model.Response{}, postID).Error
+	err := d.orm.WithContext(ctx).Where("post_id = ?", postID).Delete(&model.Response{}).Error
 	return err
 }
 
