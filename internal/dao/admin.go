@@ -8,14 +8,14 @@ import (
 
 func (d *Dao) QueryPost(ctx context.Context, status int) ([]model.Post, error) {
 	var postList []model.Post
-	err := d.orm.WithContext(ctx).Find(&postList, "status = ?",status).Error
+	err := d.orm.WithContext(ctx).Unscoped().Find(&postList, "status = ?",status).Error
 	return postList, err
 }
 
 func (d *Dao) UpdatePostStatus(ctx context.Context,adminID int, postID int, status int) error{
 	err := d.orm.WithContext(ctx).Model(&model.Post{}).Where("id=?", postID).Updates(map[string]interface{}{
 		"status": status,
-		"admin_id": adminID,
+		"admin_id": 0,
 	}).Error
 	return err
 }
@@ -63,11 +63,17 @@ func (d *Dao) UpdateUserType(ctx context.Context,userID int,userType int) error{
 
 func (d *Dao) GetPostByAdminID(ctx context.Context, admin_id int) ([]model.Post, error){
 	var posts []model.Post
-	err:= d.orm.WithContext(ctx).Model(&model.Post{}).Where("admin_id=?", admin_id).Find(&posts).Error
+	err:= d.orm.WithContext(ctx).Model(&model.Post{}).Unscoped().Where("admin_id=?", admin_id).Find(&posts).Error
 	// if err!= nil {
 	// 	return nil, err
 	// }
 
 	// PostID := posts.ID
 	return posts, err
+}
+
+func (d *Dao) GetResponseByPID(ctx context.Context, post_id int) (*model.Response, error) {
+	var response model.Response
+	err := d.orm.WithContext(ctx).Model(&model.Response{}).Unscoped().Where("post_id=?", post_id).First(&response).Error
+	return &response, err
 }

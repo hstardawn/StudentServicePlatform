@@ -89,6 +89,9 @@ var (
 	SendError =NewError(http.StatusInternalServerError, 200531, "发送验证码失败")
 	VartiyError =NewError(http.StatusInternalServerError, 200532, "验证码不匹配")
 	EncryptionFailed =NewError(http.StatusInternalServerError, 200533, "加密失败")
+	ResponseNotExist =NewError(http.StatusInternalServerError, 200534,"回复不存在")
+	Wantdie =NewError(http.StatusInternalServerError, 200535, "嫩妈妈，对超管动手，相似是吧")
+	DouM =NewError(http.StatusInternalServerError, 200, "不然你自己爽,怎么样,你个抖M")
 )
 
 func OtherError(message string) *Error {

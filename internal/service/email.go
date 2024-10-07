@@ -113,7 +113,7 @@ func SendMail(email string, name string, content string) {
 }
 
 var (
-	verificationCodeCache = cache.New(5*time.Minute, 10*time.Minute)
+	verificationCodeCache = cache.New(1*time.Minute, 5*time.Minute)
 )
 
 // EmailService defines the email service interface

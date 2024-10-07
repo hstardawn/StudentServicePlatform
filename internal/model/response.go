@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Response struct {
 	AdminID        int       `json:"admin_id"`
@@ -14,4 +18,5 @@ type Response struct {
 	// Status         int       `json:"status"`
 	CreateAt       time.Time `json:"response_time"`
 	// UpdatedAt      time.Time `json:"updated_response"`
+	DeletedAt gorm.DeletedAt  `json:"deleted_at"`
 }
