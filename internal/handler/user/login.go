@@ -4,6 +4,7 @@ import (
 	"StudentServicePlatform/internal/apiException"
 	"StudentServicePlatform/internal/service"
 	"StudentServicePlatform/pkg/utils"
+	"encoding/json"
 
 	"github.com/gin-gonic/gin"
 )
@@ -31,11 +32,20 @@ func Login(c *gin.Context) {
 		return
 	}
 	user, _ = service.GetUserPassword(data.Username)
-	err = utils.CheckPassword(user.Password, data.Password)
+	hashpassword , err:= utils.HashPassword(data.Password)
+	if err != nil{
+		_ = c.AbortWithError(200, apiException.EncryptionFailed)
+		return
+	}
+	err = utils.CheckPassword(hashpassword, data.Password)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.NoThatPasswordOrWrong)
 		return
 	}
+	//解析图片
+	var pictures []string
+	picturesBytes := []byte(user.Pictures)
+	_ = json.Unmarshal(picturesBytes, &pictures)
 	utils.JsonSuccess(c, gin.H{
 		"token": token,
 		"user":  user,

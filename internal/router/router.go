@@ -17,7 +17,8 @@ func Init(r *gin.Engine){
 		uploadGroup:= api.Group("/upload")
 		{
 			// uploadGroup.Use(middleware.IsLogin)
-			uploadGroup.POST("/image",upload.UploadImage)
+			uploadGroup.POST("/post_image",upload.UploadPostImage)
+			uploadGroup.POST("/user_image",upload.UploadUserImage)
 		}
 		userGroup := api.Group("/user")
 		{

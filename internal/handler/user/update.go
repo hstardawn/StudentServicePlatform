@@ -11,12 +11,11 @@ import (
 type UpdateUserData struct {
 	Username int    `json:"username" binding:"required"`
 	Name     string `json:"name" binding:"required"`
-	Sex      string `json:"sex" bingding:"required"`
+	Sex      string `json:"sex" binding:"required"`
 	PhoneNum int    `json:"phone_num" binding:"required"`
 	Email    string `json:"email" binding:"required"`
 	OriginPassword string `json:"origin_password" binding:"required"`
 	NewPassword string `json:"new_password" binding:"required"`
-
 }
 
 func UpdateUser(c *gin.Context) {
@@ -53,7 +52,7 @@ func UpdateUser(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.EncryptionFailed)
 		return
 	}
-	err = service.UpdateUser(data.Username, data.Name, data.Sex, data.PhoneNum,/* data.Email,*/ hashpassword)
+	err = service.UpdateUser(data.Username, data.Name,data.Sex, data.PhoneNum,/* data.Email,*/ hashpassword)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.UpdateUserError) //修改用户信息失败
 		return
