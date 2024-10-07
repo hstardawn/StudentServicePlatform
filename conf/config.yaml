@@ -3,7 +3,7 @@ mysql:
   host: "121.40.27.84"
   port: 3306
   user: root
-  pass: Hxx332671
+  pass: 123456
 
 redis:
   host: "121.40.27.84"

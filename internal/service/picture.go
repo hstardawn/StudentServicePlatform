@@ -25,3 +25,11 @@ func GetFileType(filename string) string {
 func GetUUID() string {
 	return uuid.NewV1().String()
 }
+
+func StorePostPicture(ID int,filename string) error {
+	return d.StorePostPicture(ctx,ID,filename)
+}
+
+func StoreUserPicture(ID int,filename string) error {
+	return d.StoreUserPicture(ctx,ID,filename)
+}

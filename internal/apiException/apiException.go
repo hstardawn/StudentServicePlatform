@@ -48,6 +48,7 @@ var (
 	ParseFormDataError = NewError(http.StatusInternalServerError, 200514, "解析表单数据失败")
 	FileExistedError   = NewError(http.StatusInternalServerError, 200515, "文件已存在")
 	GetFileError       = NewError(http.StatusInternalServerError, 200516, "获取文件失败")
+	StorePictureError  = NewError(http.StatusInternalServerError, 200517, "存储图片失败")
 
 	//修改反馈
 	PostNotFind          = NewError(http.StatusInternalServerError, 200517, "反馈不存在")
