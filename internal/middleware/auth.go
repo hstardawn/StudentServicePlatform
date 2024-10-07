@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"StudentServicePlatform/internal/apiException"
+	"StudentServicePlatform/internal/model"
 	// "StudentServicePlatform/internal/model"
 	"StudentServicePlatform/internal/service"
 	"StudentServicePlatform/pkg/utils"
@@ -43,11 +44,24 @@ func IsLogin(c *gin.Context) {
 
 }
 
-// func IsAdmin(c *gin.Context) {
-// 	IsLogin(c)
-// 	user := c.MustGet("user").(*model.User)
-// 	if !(user.UserType == 1 || user.UserType == 2) {
-// 		_ = c.AbortWithError(http.StatusOK, apiException.PermissionsNotAllowed)
-// 		return
-// 	}
-// }
+func IsAdmin(c *gin.Context) {
+	IsLogin(c)
+	user := c.MustGet("user").(*model.User)
+	if !(user.UserType == 1 || user.UserType == 2) {
+		_ = c.AbortWithError(http.StatusOK, apiException.LackRight)
+		return
+	}
+}
+
+func IsSU(c *gin.Context) {
+	IsLogin(c)
+	val, isExisted := c.Get("user")
+	if !isExisted {
+		return
+	}
+	user := val.(*model.User)
+	if user.UserType != 2 {
+		_ = c.AbortWithError(http.StatusOK, apiException.LackRight)
+		return
+	}
+}
