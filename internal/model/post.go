@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Post struct {
 	ID             int       `json:"post_id"`
@@ -19,4 +23,5 @@ type Post struct {
 	CreateAt       time.Time `json:"post_time"`
 	UpdatedAt      time.Time `json:"updated_post"`
 	// ResponseAt     time.Time `json:"response_time"`
+	DeletedAt gorm.DeletedAt  `json:"deleted_at"`
 }
