@@ -41,8 +41,8 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 	//加密
-	_ = utils.CheckPassword(user.Password, data.OriginPassword)
-	if user.Password != data.OriginPassword {
+	err = utils.CheckPassword( user.Password, data.OriginPassword)
+	if err != nil {
 		_ = c.AbortWithError(200, apiException.NoThatPasswordOrWrong) //密码错误
 		return
 	}
