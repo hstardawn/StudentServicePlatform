@@ -15,7 +15,7 @@ func (d *Dao) QueryPost(ctx context.Context, status int) ([]model.Post, error) {
 func (d *Dao) UpdatePostStatus(ctx context.Context,adminID int, postID int, status int) error{
 	err := d.orm.WithContext(ctx).Model(&model.Post{}).Where("id=?", postID).Updates(map[string]interface{}{
 		"status": status,
-		"admin_id": 0,
+		"admin_id": adminID,
 	}).Error
 	return err
 }

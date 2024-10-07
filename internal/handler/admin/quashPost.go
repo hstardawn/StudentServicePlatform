@@ -53,7 +53,7 @@ func QuashHandle(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.SaveError)
 		return
 	}
-	err = service.UpdatePostStatus(data.AdminID, data.PostID, 0)
+	err = service.UpdatePostStatus(0, data.PostID, 0)
 	if err != nil{
 		_ = c.AbortWithError(200, apiException.UpdatePostError)
 		return 
