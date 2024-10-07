@@ -88,6 +88,7 @@ var (
 	SendError =NewError(http.StatusInternalServerError, 200531, "发送验证码失败")
 	VartiyError =NewError(http.StatusInternalServerError, 200532, "验证码不匹配")
 	EncryptionFailed =NewError(http.StatusInternalServerError, 200533, "加密失败")
+	ResponseNotExist =NewError(http.StatusInternalServerError, 200534,"回复不存在")
 )
 
 func OtherError(message string) *Error {

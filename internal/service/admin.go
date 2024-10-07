@@ -63,3 +63,7 @@ func UpdateUserType(userID int, userType int) error {
 func GetPostByAdminID(admin_id int) ([]model.Post, error) {
 	return d.GetPostByAdminID(ctx, admin_id)
 }
+
+func GetResponseByPID(postID int) (*model.Response, error) {
+	return d.GetResponseByPID(ctx, postID)
+}

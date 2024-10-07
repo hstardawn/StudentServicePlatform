@@ -34,6 +34,13 @@ func QuashHandle(c *gin.Context) {
 		return
 	}
 
+	// 检验举报是否存在
+	_, err = service.GetResponseByPID(data.PostID)
+	if err != nil {
+		_ = c.AbortWithError(200, apiException.ResponseNotExist)
+		return
+	}
+
 	// 检验是否同一人处理
 	if post.AdminID != data.AdminID{
 		_ = c.AbortWithError(200, apiException.AdminUncompaired)

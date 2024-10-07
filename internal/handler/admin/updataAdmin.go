@@ -11,7 +11,7 @@ import (
 type updateAdmin struct {
 	AdminID  int `json:"admin_id" binding:"required"`
 	UserID   int `json:"user_id" binding:"required"`
-	UserType int `json:"user_type" binding:"required"`
+	UserType int `json:"user_type"`
 }
 
 func UpdateAdmin(c *gin.Context){
@@ -33,6 +33,7 @@ func UpdateAdmin(c *gin.Context){
 	admin, err := service.GetUserByUserID(data.AdminID)
 	if err != nil{
 		_ = c.AbortWithError(200, apiException.AdminNotFind)
+		return
 	}
 
 	// 检验管理员权限
@@ -42,6 +43,10 @@ func UpdateAdmin(c *gin.Context){
 	}
 
 	// 更改权限
+	if data.UserType ==2 {
+		_ = c.AbortWithError(200 ,apiException.LackRight)
+		return
+	}
 	err = service.UpdateUserType(data.UserID, data.UserType)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.UpdateRightError)

@@ -15,7 +15,7 @@ func (d *Dao) QueryPost(ctx context.Context, status int) ([]model.Post, error) {
 func (d *Dao) UpdatePostStatus(ctx context.Context,adminID int, postID int, status int) error{
 	err := d.orm.WithContext(ctx).Model(&model.Post{}).Where("id=?", postID).Updates(map[string]interface{}{
 		"status": status,
-		"admin_id": adminID,
+		"admin_id": 0,
 	}).Error
 	return err
 }
@@ -70,4 +70,10 @@ func (d *Dao) GetPostByAdminID(ctx context.Context, admin_id int) ([]model.Post,
 
 	// PostID := posts.ID
 	return posts, err
+}
+
+func (d *Dao) GetResponseByPID(ctx context.Context, post_id int) (*model.Response, error) {
+	var response model.Response
+	err := d.orm.WithContext(ctx).Model(&model.Response{}).Where("post_id=?", post_id).First(&response).Error
+	return &response, err
 }
