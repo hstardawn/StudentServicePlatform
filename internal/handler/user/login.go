@@ -19,17 +19,25 @@ func Login(c *gin.Context) {
 		_ = c.AbortWithError(200, apiException.ParamError) //参数错误
 		return
 	}
-	_, err := service.GetUserByUsername(data.Username)
+	user, err := service.GetUserByUsername(data.Username)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.UserNotFind) //用户不存在
 		return
 	}
-	
-	user, _ := service.GetUserPassword(data.Username)
+	// 生成token
+	token, err := utils.GenerateJWT(user.ID)
+	if err != nil {
+		_ = c.AbortWithError(200, apiException.ServerError)
+		return
+	}
+	user, _ = service.GetUserPassword(data.Username)
 	err = utils.CheckPassword(user.Password, data.Password)
 	if err != nil {
 		_ = c.AbortWithError(200, apiException.NoThatPasswordOrWrong)
 		return
 	}
-	utils.JsonSuccess(c, user)
+	utils.JsonSuccess(c, gin.H{
+		"token": token,
+		"user":  user,
+	})
 }

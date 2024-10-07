@@ -49,3 +49,17 @@ func UploadImage(c *gin.Context) {
 	}
 	utils.JsonSuccess(c, gin.H{"picture_url": dst})
 }
+
+type GetPictureData struct {
+	UserID int `json:"user_id"`
+}
+
+
+func GetImage(c *gin.Context) {
+	var data GetPictureData
+	err := c.ShouldBindJSON(&data)
+	if err != nil {
+		_ = c.AbortWithError(200, apiException.ParamError) //参数错误
+		return
+	}
+}

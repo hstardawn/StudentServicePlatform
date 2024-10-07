@@ -11,7 +11,7 @@ import (
 type updateAdmin struct {
 	AdminID  int `json:"admin_id" binding:"required"`
 	UserID   int `json:"user_id" binding:"required"`
-	UserType int `json:"user_type" binding:"required"`
+	UserType int `json:"user_type"`
 }
 
 func UpdateAdmin(c *gin.Context){
